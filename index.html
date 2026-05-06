@@ -1,105 +1,213 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compteur de Mots et Caractères - Service Express</title>
-    
-    <!-- 1. SCRIPT PRINCIPAL ADSENSE (Indispensable) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1805732481707409" crossorigin="anonymous"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { margin:0; font-family:'Inter', sans-serif; background: radial-gradient(circle at top, #0f172a, #020617); color:white; display:flex; flex-direction: column; align-items:center; min-height:100vh; padding: 20px; }
-        .container { width:100%; max-width:600px; padding:30px; border-radius:24px; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); box-shadow: 0 0 50px rgba(99,102,241,0.25); text-align:center; margin-bottom: 30px; }
-        
-        h1 { margin-bottom:10px; font-size: 1.8rem; }
-        .subtitle { color:#94a3b8; font-size:14px; margin-bottom:20px; }
-        
-        /* Style de l'espace pub */
-        .ad-slot { margin: 20px 0; min-height: 100px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
-        
-        textarea { 
-            width:100%; height: 200px; padding:15px; border-radius:12px; 
-            border:1px solid rgba(255,255,255,0.1); background:#0f172a; color:white;
-            box-sizing: border-box; font-size: 1rem; outline: none; resize: vertical;
-            margin-bottom: 20px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compteur de Mots et Caractères en Ligne – Gratuit | Service Express</title>
+  <meta name="description" content="Comptez vos mots et caractères en temps réel. Limites Twitter, LinkedIn, SEO affichées automatiquement. Outil gratuit, sans inscription.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mots.service-express.org/">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1805732481707409" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#04050f; --surface:rgba(255,255,255,0.05); --surface2:rgba(255,255,255,0.03);
+      --border:rgba(255,255,255,0.09); --purple:#a78bfa; --purple-dim:#818cf8;
+      --accent:#7c3aed; --text:#e8eaf6; --muted:#7c85a8;
+      --green:#34d399; --amber:#fbbf24; --red:#f87171;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 16px 60px;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 60% 50% at 15% 15%,rgba(99,60,180,.15) 0%,transparent 70%),radial-gradient(ellipse 40% 50% at 85% 80%,rgba(30,80,200,.10) 0%,transparent 70%);pointer-events:none;}
+    .wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;}
 
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: rgba(99,102,241,0.1); padding: 15px; border-radius: 12px; border: 1px solid rgba(99,102,241,0.2); }
-        .stat-card span { display: block; font-size: 24px; font-weight: 700; color: #a78bfa; }
-        .stat-card label { font-size: 12px; color: #94a3b8; text-transform: uppercase; }
+    nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0 24px;border-bottom:1px solid var(--border);margin-bottom:36px;}
+    .nav-brand{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--purple);text-decoration:none;}
+    .nav-back{font-size:13px;color:var(--muted);text-decoration:none;}
+    .nav-back:hover{color:var(--purple);}
 
-        .seo-content { text-align: left; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
-        .seo-content h2 { font-size: 1.1rem; color: #a78bfa; margin-top: 15px; }
-        .seo-content p { font-size: 0.85rem; color: #94a3b8; line-height: 1.6; }
+    .hero{text-align:center;margin-bottom:32px;}
+    .hero h1{font-family:'Syne',sans-serif;font-size:clamp(26px,5vw,40px);font-weight:800;margin-bottom:8px;}
+    .hero h1 span{color:var(--purple);}
+    .hero p{font-size:15px;color:var(--muted);}
 
-        footer { margin-top: auto; padding: 20px; font-size: 0.8rem; text-align: center; color: #64748b; }
-        footer a { color:#94a3b8; text-decoration: none; margin: 0 10px; }
-    </style>
+    /* TEXTAREA */
+    .textarea-wrap{position:relative;margin-bottom:20px;}
+    textarea{
+      width:100%;height:220px;padding:18px;font-size:15px;font-family:'DM Sans',sans-serif;
+      background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:16px;
+      color:var(--text);outline:none;resize:vertical;line-height:1.6;
+      transition:border-color .2s;
+    }
+    textarea:focus{border-color:var(--purple);}
+    textarea::placeholder{color:var(--muted);}
+    .char-counter{position:absolute;bottom:12px;right:14px;font-size:12px;color:var(--muted);}
+
+    /* STATS */
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+    @media(max-width:500px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px 12px;text-align:center;}
+    .stat-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--purple);line-height:1;}
+    .stat-val.green{color:var(--green);}
+    .stat-val.amber{color:var(--amber);}
+    .stat-sub{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:5px;}
+
+    /* LIMITES RÉSEAUX */
+    .limits-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:20px;}
+    .limits-title{font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;margin-bottom:14px;}
+    .limit-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+    .limit-row:last-child{margin-bottom:0;}
+    .limit-name{font-size:13px;color:var(--text);width:120px;flex-shrink:0;}
+    .limit-bar-wrap{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;}
+    .limit-bar{height:100%;border-radius:4px;background:var(--green);transition:width .3s,background .3s;}
+    .limit-bar.warn{background:var(--amber);}
+    .limit-bar.over{background:var(--red);}
+    .limit-count{font-size:12px;color:var(--muted);width:70px;text-align:right;flex-shrink:0;}
+
+    /* BOUTON CLEAR */
+    .btn-clear{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;font-size:14px;font-weight:500;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--muted);cursor:pointer;transition:all .2s;margin-bottom:20px;}
+    .btn-clear:hover{border-color:var(--red);color:var(--red);}
+
+    /* SEO */
+    .seo{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;margin-top:8px;}
+    .seo h2{font-family:'Syne',sans-serif;font-size:18px;color:var(--purple);margin-bottom:12px;}
+    .seo h3{font-size:15px;color:var(--text);margin:20px 0 8px;}
+    .seo p{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:10px;}
+    .seo ul{padding-left:18px;color:var(--muted);font-size:14px;line-height:2.1;}
+    .seo table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+    .seo table th{text-align:left;color:var(--purple);padding:8px 6px;border-bottom:1px solid var(--border);}
+    .seo table td{padding:8px 6px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.04);}
+
+    footer{text-align:center;margin-top:48px;font-size:12px;color:var(--muted);}
+    footer a{color:var(--purple-dim);text-decoration:none;}
+    footer a:hover{text-decoration:underline;}
+  </style>
 </head>
 <body>
+<div class="wrap">
+  <nav>
+    <a class="nav-brand" href="https://service-express.org">⚡ Service Express</a>
+    <a class="nav-back" href="https://service-express.org">← Retour au portail</a>
+  </nav>
 
-<div class="container">
-    <h1>📝 Text Counter</h1>
-    <p class="subtitle">Analyseur de texte en temps réel</p>
+  <div class="hero">
+    <h1>📝 Compteur de <span>Mots</span></h1>
+    <p>Analysez vos textes en temps réel — mots, caractères, phrases, paragraphes</p>
+  </div>
 
-    <!-- 2. BLOC D'ANNONCE MANUEL (Placé pour un max de revenus) -->
-    <div class="ad-slot">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1805732481707409"
-             data-ad-slot="auto"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <!-- TEXTAREA -->
+  <div class="textarea-wrap">
+    <textarea id="txt" placeholder="Collez ou saisissez votre texte ici…" oninput="analyse()"></textarea>
+    <div class="char-counter" id="char-live">0 car.</div>
+  </div>
+
+  <button class="btn-clear" onclick="clearText()">✕ Effacer le texte</button>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-val" id="s-words">0</div><div class="stat-sub">Mots</div></div>
+    <div class="stat-card"><div class="stat-val green" id="s-chars">0</div><div class="stat-sub">Caractères</div></div>
+    <div class="stat-card"><div class="stat-val amber" id="s-sentences">0</div><div class="stat-sub">Phrases</div></div>
+    <div class="stat-card"><div class="stat-val" id="s-para">0</div><div class="stat-sub">Paragraphes</div></div>
+  </div>
+
+  <!-- LIMITES RÉSEAUX -->
+  <div class="limits-card">
+    <div class="limits-title">Limites réseaux sociaux</div>
+    <div class="limit-row">
+      <div class="limit-name">𝕏 Twitter</div>
+      <div class="limit-bar-wrap"><div class="limit-bar" id="bar-twitter" style="width:0%"></div></div>
+      <div class="limit-count"><span id="cnt-twitter">0</span> / 280</div>
     </div>
-
-    <textarea id="textInput" placeholder="Collez votre texte ici pour compter les mots et les caractères..." oninput="count()"></textarea>
-
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span id="wordCount">0</span>
-            <label>Mots</label>
-        </div>
-        <div class="stat-card">
-            <span id="charCount">0</span>
-            <label>Caractères</label>
-        </div>
+    <div class="limit-row">
+      <div class="limit-name">LinkedIn</div>
+      <div class="limit-bar-wrap"><div class="limit-bar" id="bar-linkedin" style="width:0%"></div></div>
+      <div class="limit-count"><span id="cnt-linkedin">0</span> / 3000</div>
     </div>
-
-    <!-- 3. CONTENU SEO (Obligatoire pour la validation AdSense) -->
-    <div class="seo-content">
-        <h2>Pourquoi surveiller le nombre de mots ?</h2>
-        <p>Que vous rédigiez un article de blog, une dissertation ou une publication sur les réseaux sociaux, respecter les limites est crucial. Un texte trop court peut manquer de profondeur, tandis qu'un texte trop long risque de perdre l'attention du lecteur.</p>
-        <h2>Limites pour les réseaux sociaux en 2026</h2>
-        <p>• <strong>X (Twitter) :</strong> 280 caractères<br>
-           • <strong>LinkedIn :</strong> 3000 caractères par post<br>
-           • <strong>SEO (Méta-description) :</strong> 155 caractères maximum</p>
+    <div class="limit-row">
+      <div class="limit-name">Meta desc. SEO</div>
+      <div class="limit-bar-wrap"><div class="limit-bar" id="bar-seo" style="width:0%"></div></div>
+      <div class="limit-count"><span id="cnt-seo">0</span> / 155</div>
     </div>
+    <div class="limit-row">
+      <div class="limit-name">Instagram</div>
+      <div class="limit-bar-wrap"><div class="limit-bar" id="bar-insta" style="width:0%"></div></div>
+      <div class="limit-count"><span id="cnt-insta">0</span> / 2200</div>
+    </div>
+  </div>
+
+  <!-- SEO -->
+  <div class="seo">
+    <h2>Pourquoi compter ses mots en ligne ?</h2>
+    <p>Que vous rédigiez un article de blog, une dissertation, une candidature ou un post sur les réseaux sociaux, connaître précisément le nombre de mots et de caractères est indispensable pour respecter les contraintes éditoriales et optimiser l'impact de votre message.</p>
+
+    <h3>Limites officielles des plateformes en 2026</h3>
+    <table>
+      <tr><th>Plateforme</th><th>Limite caractères</th><th>Remarque</th></tr>
+      <tr><td>𝕏 (Twitter)</td><td>280</td><td>Liens comptent pour 23 car.</td></tr>
+      <tr><td>LinkedIn (post)</td><td>3 000</td><td>Coupé à 210 sans "voir plus"</td></tr>
+      <tr><td>Instagram (légende)</td><td>2 200</td><td>Coupé à 125 dans le feed</td></tr>
+      <tr><td>Meta description SEO</td><td>155</td><td>Recommandation Google</td></tr>
+      <tr><td>Titre SEO</td><td>60</td><td>Affiché en entier dans Google</td></tr>
+    </table>
+
+    <h3>Nombre de mots recommandé par type de contenu</h3>
+    <ul>
+      <li>Article de blog court : 600 – 1 000 mots</li>
+      <li>Article SEO optimisé : 1 500 – 2 500 mots</li>
+      <li>Page pilier / guide complet : 3 000 – 5 000 mots</li>
+      <li>Dissertation universitaire (L3) : 5 000 – 8 000 mots</li>
+      <li>Email professionnel : 50 – 150 mots</li>
+    </ul>
+
+    <h3>Différence mots vs caractères</h3>
+    <p>Un mot en français contient en moyenne 5,4 caractères (espaces exclus). Un texte de 1 000 mots représente donc environ 5 400 caractères, soit 5,4 ko de données texte brut. Cette conversion est utile pour estimer le temps de lecture (environ 200 mots/minute pour un adulte).</p>
+  </div>
+
+  <footer>
+    <p>© 2026 Service Express &nbsp;·&nbsp; <a href="https://mots.service-express.org/privacy.html">Confidentialité</a></p>
+  </footer>
 </div>
 
 <script>
-    function count() {
-        const text = document.getElementById('textInput').value.trim();
-        
-        // Caractères (espaces inclus)
-        document.getElementById('charCount').innerText = text.length;
-        
-        // Mots (gestion des espaces multiples)
-        const words = text ? text.split(/\s+/).filter(w => w.length > 0).length : 0;
-        document.getElementById('wordCount').innerText = words;
-    }
+const LIMITS = [
+  { id:'twitter', max:280 },
+  { id:'linkedin', max:3000 },
+  { id:'seo', max:155 },
+  { id:'insta', max:2200 },
+];
+
+function analyse() {
+  const txt = document.getElementById('txt').value;
+  const len = txt.length;
+
+  // Mots
+  const words = txt.trim() ? txt.trim().split(/\s+/).filter(w=>w.length>0).length : 0;
+  // Phrases
+  const sentences = txt.trim() ? txt.split(/[.!?]+/).filter(s=>s.trim().length>0).length : 0;
+  // Paragraphes
+  const para = txt.trim() ? txt.split(/\n\s*\n/).filter(p=>p.trim().length>0).length : 0;
+
+  document.getElementById('s-words').textContent     = words.toLocaleString('fr-FR');
+  document.getElementById('s-chars').textContent     = len.toLocaleString('fr-FR');
+  document.getElementById('s-sentences').textContent = sentences.toLocaleString('fr-FR');
+  document.getElementById('s-para').textContent      = para || (txt.trim() ? 1 : 0);
+  document.getElementById('char-live').textContent   = len + ' car.';
+
+  LIMITS.forEach(l => {
+    const pct = Math.min(100, (len / l.max) * 100);
+    const bar = document.getElementById('bar-' + l.id);
+    bar.style.width = pct + '%';
+    bar.className = 'limit-bar' + (pct >= 100 ? ' over' : pct >= 80 ? ' warn' : '');
+    document.getElementById('cnt-' + l.id).textContent = len.toLocaleString('fr-FR');
+  });
+}
+
+function clearText() {
+  document.getElementById('txt').value = '';
+  analyse();
+}
 </script>
-
-<footer>
-    <p>
-        <a href="about.html">À propos</a> | 
-        <a href="privacy.html">Confidentialité</a>
-    </p>
-    <p>&copy; 2026 Service Express - Tous droits réservés</p>
-</footer>
-
 </body>
 </html>
